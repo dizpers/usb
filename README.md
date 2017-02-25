@@ -6,7 +6,7 @@ USB - **U**RL **S**hortener **B**ackend
 
 This project is the part of my application to [Joor](http://jooraccess.com/) company. Please, see the description of requirements below.
 
-# Desription
+# Description
 
 ## Requirements
 
@@ -41,3 +41,17 @@ These are some guidelines for scope and technology choice:
 6. Building a front-end client for this API is not part of the assignment.
 
 7. Deploying this API is not part of the assignment.
+
+# Installation
+
+# Usage
+
+# Development
+
+## Tests
+
+You can run full test suite by executing following command:
+
+```
+nosetests
+```
