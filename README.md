@@ -15,7 +15,7 @@ These are the business rules that need to be fulfilled:
 
 1. User should be able to submit any URL and get a standardized, shortened URL back
 
-2. User should be able to configure a shortened URL to redirect to different targets basedon the device type (mobile,
+2. User should be able to configure a shortened URL to redirect to different targets based on the device type (mobile,
 tablet, desktop) of the user navigating to the shortened URL
 
 3. Navigating to a shortened URL should redirect to the appropriate target URL
