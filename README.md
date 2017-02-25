@@ -63,7 +63,7 @@ Try to perform a redirect by given short URL, considering a device type.
 
 #### Body
 
--
+None.
 
 #### Return
 
@@ -79,11 +79,11 @@ redirects).
 
 #### Parameters
 
--
+None.
 
 #### Body
 
--
+None.
 
 #### Return
 
@@ -117,7 +117,7 @@ Create new short link by given long URL.
 
 #### Parameters
 
--
+None.
 
 #### Body
 
