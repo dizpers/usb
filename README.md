@@ -4,7 +4,8 @@ USB - **U**RL **S**hortener **B**ackend
 
 # Intro
 
-This project is the part of my application to [Joor](http://jooraccess.com/) company. Please, see the description of requirements below.
+This project is the part of my application to [Joor](http://jooraccess.com/) company. Please, see the description of 
+requirements below.
 
 # Description
 
@@ -14,11 +15,13 @@ These are the business rules that need to be fulfilled:
 
 1. User should be able to submit any URL and get a standardized, shortened URL back
 
-2. User should be able to configure a shortened URL to redirect to different targets based on the device type (mobile, tablet, desktop) of the user navigating to the shortened URL
+2. User should be able to configure a shortened URL to redirect to different targets basedon the device type (mobile,
+tablet, desktop) of the user navigating to the shortened URL
 
 3. Navigating to a shortened URL should redirect to the appropriate target URL
 
-4. User should be able to retrieve a list of all existing shortened URLs, including time since creation and target URLs (each with number of redirects)
+4. User should be able to retrieve a list of all existing shortened URLs, including time since creation and target URLs
+(each with number of redirects)
 
 5. API requests and responses should be JSON formatted.
 
