@@ -18,6 +18,9 @@ class APITestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
+    def _post(self, url, data):
+        return self.client.post(url, data=json.dumps(data), content_type='application/json')
+
     def test_redirect_from_index_namespace(self):
         pass
 
@@ -26,7 +29,7 @@ class APITestCase(TestCase):
 
     def test_create_short_link(self):
         long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
-        response = self.client.post('/links', data={'url': long_url})
+        response = self._post('/links', {'url': long_url})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         data = json.loads(response.data)
@@ -38,7 +41,7 @@ class APITestCase(TestCase):
 
     def test_create_short_link_for_already_shortened(self):
         long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
-        response = self.client.post('/links', data={'url': long_url})
+        response = self._post('/links', {'url': long_url})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         data_from_first_call = json.loads(response.data)
@@ -47,12 +50,11 @@ class APITestCase(TestCase):
         self.assertNotEqual(long_url, short_url)
         short_id = short_url.split('/')[-1]
         self.assertRegex(short_id, r'^[a-zA-Z0-9]{8,}$')
-        response = self.client.post('/links', data={'url': long_url})
+        response = self._post('/links', {'url': long_url})
         self.assertEqual(response.status_code, 409)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         data_from_second_call = json.loads(response.data)
         self.assertEqual(data_from_first_call, data_from_second_call)
-
 
     def test_update_short_link(self):
         pass
