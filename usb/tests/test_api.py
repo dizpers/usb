@@ -23,12 +23,17 @@ class APITestCase(TestCase):
         return self.client.post(url, data=json.dumps(data), content_type='application/json')
 
     def assertShortIdFormat(self, short_id):
-        self.assertRegex(short_id, r'^[a-zA-Z0-9]{8,}$')
+        self.assertRegex(
+            short_id,
+            r'^[a-zA-Z0-9]{{{min_length},}}$'.format(
+                min_length=self.app.config['SHORT_URL_MIN_LENGTH']
+            )
+        )
 
     def assertShortURL(self, short_url):
         url = urlparse(short_url)
         self.assertEqual(url.scheme, 'http')
-        self.assertEqual(url.netloc, self.app.config['SERVER_NAME'])
+        self.assertEqual(url.netloc, self.app.config['SHORT_URL_DOMAIN'])
         self.assertEqual(url.path.count('/'), 1)
         self.assertFalse(url.params)
         self.assertFalse(url.query)
