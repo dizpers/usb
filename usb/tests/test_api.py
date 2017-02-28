@@ -1,5 +1,6 @@
 import json
 from unittest import TestCase
+from urllib.parse import urlparse
 
 from usb import create_application
 from usb.models import db
@@ -21,6 +22,18 @@ class APITestCase(TestCase):
     def _post(self, url, data):
         return self.client.post(url, data=json.dumps(data), content_type='application/json')
 
+    def assertShortIdFormat(self, short_id):
+        self.assertRegex(short_id, r'^[a-zA-Z0-9]{8,}$')
+
+    def assertShortURL(self, short_url):
+        url = urlparse(short_url)
+        self.assertEqual(url.scheme, 'http')
+        self.assertEqual(url.netloc, self.app.config['SERVER_NAME'])
+        self.assertEqual(url.path.count('/'), 1)
+        self.assertFalse(url.params)
+        self.assertFalse(url.query)
+        self.assertFalse(url.fragment)
+
     def test_redirect_from_index_namespace(self):
         pass
 
@@ -36,8 +49,9 @@ class APITestCase(TestCase):
         self.assertIn('url', data)
         short_url = data['url']
         self.assertNotEqual(long_url, short_url)
+        self.assertShortURL(short_url)
         short_id = short_url.split('/')[-1]
-        self.assertRegex(short_id, r'^[a-zA-Z0-9]{8,}$')
+        self.assertShortIdFormat(short_id)
 
     def test_create_short_link_for_already_shortened(self):
         long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
@@ -48,8 +62,9 @@ class APITestCase(TestCase):
         self.assertIn('url', data_from_first_call)
         short_url = data_from_first_call['url']
         self.assertNotEqual(long_url, short_url)
+        self.assertShortURL(short_url)
         short_id = short_url.split('/')[-1]
-        self.assertRegex(short_id, r'^[a-zA-Z0-9]{8,}$')
+        self.assertShortIdFormat(short_id)
         response = self._post('/links', {'url': long_url})
         self.assertEqual(response.status_code, 409)
         self.assertEqual(response.headers['Content-Type'], 'application/json')

@@ -1,14 +1,16 @@
 import time
 
+from flask import current_app
+
 from hashids import Hashids
 
 
-hash = Hashids('asfda', 8)
+hashids = Hashids('asfda', 8)
 
 
 def get_short_id():
-    return hash.encode(int(time.time() * 10**7))
+    return hashids.encode(int(time.time() * 10**7))
 
 
 def get_short_url(short_id):
-    return 'http://jooraccess.com/{0}'.format(short_id)
+    return f'http://{current_app.config["SERVER_NAME"]}/{short_id}'
