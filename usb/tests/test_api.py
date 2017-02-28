@@ -1,19 +1,21 @@
 from unittest import TestCase
 
 from usb import create_application
-from usb import config
-
+from usb.models import db
 
 
 class APITestCase(TestCase):
 
     def setUp(self):
-        self.app = create_application(config.test)
+        self.app = create_application('config/test.py')
         self.client = self.app.test_client()
-        self.app.init_db()
+
+        db.app = self.app
+        db.create_all()
 
     def tearDown(self):
-        self.app.drop_db()
+        db.session.remove()
+        db.drop_all()
 
     def test_redirect_from_index_namespace(self):
         pass
