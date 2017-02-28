@@ -36,5 +36,6 @@ class APITestCase(TestCase):
     def test_get_list_of_short_links_empty_db(self):
         response = self.client.get('/links')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'application/json')
         data = json.loads(response.data)
         self.assertEqual(data, {})
