@@ -15,6 +15,10 @@ def get_links():
 def shorten_url():
     short_id = get_short_id()
     long_url = request.json['url']
+    redirect = Redirect.query.filter_by(url=long_url).first()
+    if redirect:
+        short_url = get_short_url(redirect.short)
+        return jsonify(url=short_url), 409
     for device_type in DeviceType:
         db.session.add(Redirect(short_id, device_type, long_url))
     db.session.commit()
