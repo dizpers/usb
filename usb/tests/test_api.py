@@ -1,3 +1,4 @@
+import json
 from unittest import TestCase
 
 from usb import create_application
@@ -29,5 +30,11 @@ class APITestCase(TestCase):
     def test_update_short_link(self):
         pass
 
-    def get_list_of_short_links(self):
+    def test_get_list_of_short_links(self):
         pass
+
+    def test_get_list_of_short_links_empty_db(self):
+        response = self.client.get('/links')
+        self.assertEqual(response.status, 200)
+        data = json.loads(response.data)
+        self.assertEqual(data, {})
