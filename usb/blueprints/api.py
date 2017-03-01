@@ -46,7 +46,10 @@ def update_short_url(short_id):
     if redirect is None:
         return jsonify({}), 404
     for key in data:
-        Redirect.query.filter_by(short=short_id, type=DeviceType[key.upper()]).update({'url': data[key]})
+        device_type = DeviceType[key.upper()]
+        redirect = Redirect.query.filter_by(short=short_id, type=device_type).first()
+        db.session.delete(redirect)
+        db.session.add(Redirect(short_id, device_type, data[key]))
     if data:
         db.session.commit()
     return jsonify({}), 200

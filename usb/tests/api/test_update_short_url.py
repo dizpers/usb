@@ -37,7 +37,7 @@ class UpdateShortUrlTestCase(APITestCase):
         self.assertEqual(tablet_redirect.type, DeviceType.TABLET)
         self.assertEqual(tablet_redirect.url, 'http://gov.us/elect/president?name=')
         self.assertEqual(tablet_redirect.count, 0)
-        self.assertNotEqual(tablet_redirect.datetime. self.dt)
+        self.assertNotEqual(tablet_redirect.datetime, self.dt)
 
     def test_update_short_url_no_such_short_id(self):
         response = self._patch_json('/urls/bbb', {'tablet': 'http://gov.us/elect/president?name='})
