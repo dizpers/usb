@@ -51,7 +51,7 @@ These are some guidelines for scope and technology choice:
 
 ## API
 
-### GET /:id or GET /links/:id
+### GET /:id or GET /urls/:id
 
 #### Description
 
@@ -70,7 +70,7 @@ None.
 * **301** (Moved Permanently) - successful redirect;
 * **404** (Not Found) - can't find any match for given id.
 
-### GET /links
+### GET /urls
 
 #### Description
 
@@ -109,7 +109,7 @@ where:
 * **redirects** - number of redirects for current long URL;
 * **datetime** - datetime (in UNIX format with milliseconds) of long URL addition (when it was shortened)
 
-### POST /links
+### POST /urls
 
 #### Description
 
@@ -146,7 +146,7 @@ where:
 
 * **url** - short URL.
 
-### PATCH /links/:id
+### PATCH /urls/:id
 
 #### Description
 

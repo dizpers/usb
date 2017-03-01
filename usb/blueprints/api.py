@@ -8,8 +8,8 @@ from usb.shortener import get_short_id, get_short_url
 api = Blueprint('api', __name__)
 
 
-@api.route('/links')
-def get_links():
+@api.route('/urls')
+def get_list_of_urls():
     # TODO: paginate?
     redirects = Redirect.query.all()
     result = defaultdict(list)
@@ -24,8 +24,8 @@ def get_links():
     return jsonify(result), 200
 
 
-@api.route('/links', methods=['POST'])
-def shorten_url():
+@api.route('/urls', methods=['POST'])
+def create_short_url():
     short_id = get_short_id()
     long_url = request.json['url']
     redirect = Redirect.query.filter_by(url=long_url).first()
@@ -39,7 +39,7 @@ def shorten_url():
     return jsonify(url=short_url), 200
 
 
-@api.route('/links/<string:short_id>', methods=['PATCH'])
+@api.route('/urls/<string:short_id>', methods=['PATCH'])
 def update_short_url(short_id):
     data = request.json
     redirect = Redirect.query.filter_by(short=short_id).first()
