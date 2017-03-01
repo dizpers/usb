@@ -23,24 +23,24 @@ class RedirectFromShortURLTestCase(APITestCase):
 
         db.session.commit()
 
-        self.PATCH_TARGET = 'usb.utils.get_device_type'
+        self.PATCH_TARGET = 'usb.blueprints.api.get_device_type'
 
     def _test_redirect_desktop(self, url):
-        with patch(self.PATCH_TARGET, Mock(return_value=DeviceType.DESKTOP)):
+        with patch(self.PATCH_TARGET, return_value=DeviceType.DESKTOP):
             response = self.client.get(url + 'aaaaaaaa')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://domain1.com/path?q=a')
 
     def _test_redirect_tablet(self, url):
-        with patch(self.PATCH_TARGET, Mock(return_value=DeviceType.TABLET)):
+        with patch(self.PATCH_TARGET, return_value=DeviceType.TABLET):
             response = self.client.get(url + 'aaaaaaaa')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://tablet.domain1.com/path?q=a')
 
     def _test_redirect_mobile(self, url):
-        with patch(self.PATCH_TARGET, Mock(return_value=DeviceType.MOBILE)):
+        with patch(self.PATCH_TARGET, return_value=DeviceType.MOBILE):
             response = self.client.get(url + 'aaaaaaaa')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://mobile.domain1.com/path?q=a')
 
     def _test_redirect(self, url):

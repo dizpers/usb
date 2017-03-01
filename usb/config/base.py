@@ -24,4 +24,8 @@ HASHIDS_SECRET = 'DJ(*#DJ(*@#JD((@J#!)JD#(JD#FHHF('
 # Short length of a generated hash
 SHORT_URL_MIN_LENGTH = 8
 
+# Don't track modifications
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Redirect code - 301 or 302
+REDIRECT_CODE = 301
