@@ -37,3 +37,13 @@ def shorten_url():
     db.session.commit()
     short_url = get_short_url(short_id)
     return jsonify(url=short_url), 200
+
+
+@api.route('/links/<string:short_id>', methods=['PATCH'])
+def update_short_url(short_id):
+    data = request.json
+    for key in data:
+        Redirect.query.filter_by(short=short_id, type=DeviceType[key.upper()]).update({'url': data[key]})
+    if data:
+        db.session.commit()
+    return jsonify({}), 200
