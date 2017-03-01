@@ -42,6 +42,9 @@ def shorten_url():
 @api.route('/links/<string:short_id>', methods=['PATCH'])
 def update_short_url(short_id):
     data = request.json
+    redirect = Redirect.query.filter_by(short=short_id).first()
+    if redirect is None:
+        return jsonify({}), 404
     for key in data:
         Redirect.query.filter_by(short=short_id, type=DeviceType[key.upper()]).update({'url': data[key]})
     if data:
