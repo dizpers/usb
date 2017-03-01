@@ -11,7 +11,7 @@ SECRET_KEY = 'H*&HD@*H#hhfhefw0083*(@#*(J@*#(JF8378'
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'usb.db')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'usb.db')
 
 SERVER_NAME = 'jooraccess.com'
 
@@ -23,3 +23,5 @@ HASHIDS_SECRET = 'DJ(*#DJ(*@#JD((@J#!)JD#(JD#FHHF('
 
 # Short length of a generated hash
 SHORT_URL_MIN_LENGTH = 8
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False

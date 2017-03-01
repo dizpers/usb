@@ -10,4 +10,4 @@ DEBUG = True
 # Enable testing mode
 TESTING = True
 
-DATABASE_URI = 'sqlite:///' + db_file.name
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + db_file.name
