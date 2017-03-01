@@ -99,6 +99,22 @@ class APITestCase(TestCase):
         self.assertEqual(tablet_redirect.type, DeviceType.TABLET)
         self.assertEqual(tablet_redirect.url, 'http://gov.us/elect/president?name=')
 
+    def test_update_short_link_no_such_short_id(self):
+        dt = datetime.now()
+        redirects = [
+            Redirect('aaaaaaaa', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=10, datetime=dt),
+            Redirect('aaaaaaaa', DeviceType.TABLET, 'http://tablet.domain1.com/path?q=a', count=20, datetime=dt),
+            Redirect('aaaaaaaa', DeviceType.MOBILE, 'http://mobile.domain1.com/path?q=a', count=30, datetime=dt)
+        ]
+        for redirect in redirects:
+            db.session.add(redirect)
+        db.session.commit()
+        response = self._patch('/links/bbb', {'tablet': 'http://gov.us/elect/president?name='})
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.headers['Content-Type'], 'application/json')
+        data = json.loads(response.data)
+        self.assertEqual(data, {})
+
     def test_get_list_of_short_links(self):
         dt = datetime.now()
         dt_str = dt.isoformat()
