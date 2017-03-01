@@ -10,7 +10,7 @@ class GetListOfUrls(APITestCase):
     def test_get_list_of_urls(self):
         dt = datetime.now()
         dt_str = dt.isoformat()
-        redirects = [
+        redirects = (
             Redirect('aaaaaaaa', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=10, datetime=dt),
             Redirect('aaaaaaaa', DeviceType.TABLET, 'http://tablet.domain1.com/path?q=a', count=20, datetime=dt),
             Redirect('aaaaaaaa', DeviceType.MOBILE, 'http://mobile.domain1.com/path?q=a', count=30, datetime=dt),
@@ -20,7 +20,7 @@ class GetListOfUrls(APITestCase):
             Redirect('cccccccc', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=1, datetime=dt),
             Redirect('cccccccc', DeviceType.TABLET, 'http://domain1.com/path?q=a', count=2, datetime=dt),
             Redirect('cccccccc', DeviceType.MOBILE, 'http://domain1.com/path?q=a', count=3, datetime=dt)
-        ]
+        )
         for redirect in redirects:
             db.session.add(redirect)
         db.session.commit()
