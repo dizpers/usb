@@ -2,8 +2,6 @@ from datetime import datetime
 import json
 
 from usb.models import db, DeviceType, Redirect
-
-
 from usb.tests.base import APITestCase
 
 
@@ -26,7 +24,9 @@ class GetListOfUrls(APITestCase):
         for redirect in redirects:
             db.session.add(redirect)
         db.session.commit()
+
         response = self.client.get('/urls')
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         data = json.loads(response.data)
@@ -50,6 +50,7 @@ class GetListOfUrls(APITestCase):
 
     def test_get_list_of_urls_empty_db(self):
         response = self.client.get('/urls')
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         data = json.loads(response.data)
