@@ -27,8 +27,12 @@ class Redirect(db.Model):
     datetime = db.Column(db.DateTime(timezone=True), default=func.now())
     count = db.Column(db.Integer(), default=0)
 
-    def __init__(self, short_id, type, url):
+    def __init__(self, short_id, type, url, datetime=None, count=None):
         # TODO: maybe use `short_id` in db too?
         self.short = short_id
         self.type = type
         self.url = url
+        if datetime is not None:
+            self.datetime = datetime
+        if count is not None:
+            self.count = count
