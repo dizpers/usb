@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from flask import Blueprint, jsonify, request
 
 from usb.models import db, Redirect, DeviceType
@@ -8,7 +10,18 @@ api = Blueprint('api', __name__)
 
 @api.route('/links')
 def get_links():
-    return jsonify({}), 200
+    # TODO: paginate?
+    redirects = Redirect.query.all()
+    result = defaultdict(list)
+    for redirect in redirects:
+        result[redirect.short].append({
+            'type': redirect.type.name.lower(),
+            'url': redirect.url,
+            'redirects': redirect.count,
+            # TODO: move to JSON serializer?
+            'datetime': redirect.datetime.isoformat()
+        })
+    return jsonify(result), 200
 
 
 @api.route('/links', methods=['POST'])
