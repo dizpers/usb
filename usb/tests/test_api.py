@@ -23,6 +23,9 @@ class APITestCase(TestCase):
     def _post(self, url, data):
         return self.client.post(url, data=json.dumps(data), content_type='application/json')
 
+    def _patch(self, url, data):
+        return self.client.patch(url, data=json.dumps(data), content_type='application/json')
+
     def assertShortIdFormat(self, short_id):
         self.assertRegex(
             short_id,
@@ -78,7 +81,23 @@ class APITestCase(TestCase):
         self.assertEqual(data_from_first_call, data_from_second_call)
 
     def test_update_short_link(self):
-        pass
+        dt = datetime.now()
+        redirects = [
+            Redirect('aaaaaaaa', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=10, datetime=dt),
+            Redirect('aaaaaaaa', DeviceType.TABLET, 'http://tablet.domain1.com/path?q=a', count=20, datetime=dt),
+            Redirect('aaaaaaaa', DeviceType.MOBILE, 'http://mobile.domain1.com/path?q=a', count=30, datetime=dt)
+        ]
+        for redirect in redirects:
+            db.session.add(redirect)
+        db.session.commit()
+        self._patch('/links/aaaaaaaa', {'tablet': 'http://gov.us/elect/president?name='})
+        tablet_redirects = Redirect.query.filter_by(short='aaaaaaaa', type=DeviceType.TABLET).all()
+        self.assertTrue(tablet_redirects)
+        self.assertEqual(len(tablet_redirects), 1)
+        tablet_redirect = tablet_redirects[0]
+        self.assertEqual(tablet_redirect.short, 'aaaaaaaa')
+        self.assertEqual(tablet_redirect.type, DeviceType.TABLET)
+        self.assertEqual(tablet_redirect.url, 'http://gov.us/elect/president?name=')
 
     def test_get_list_of_short_links(self):
         dt = datetime.now()
