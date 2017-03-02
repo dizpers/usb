@@ -29,7 +29,6 @@ class CreateShortURLTestCase(APITestCase):
         self._validate_data(data)
 
     def test_create_short_url_for_already_shortened_url(self):
-
         response = self._post_json('/urls', {'url': self.long_url})
         self._validate_response(response)
 
