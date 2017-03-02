@@ -1,3 +1,8 @@
 DEBUG = True
 
+# Make SQLAlchemy to log usage information
 SQLALCHEMY_ECHO = True
+
+# Should be equal to host/port pair you're using to run the application
+# `127.0.0.1:5000` is the default for `./manage.py runserver`
+SERVER_NAME = '127.0.0.1:5000'
