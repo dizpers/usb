@@ -1,6 +1,44 @@
-# URL Shortenere Backend
+# URL Shortener Backend
 
 USB - **U**RL **S**hortener **B**ackend
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Intro](#intro)
+- [Description](#description)
+  - [Requirements](#requirements)
+  - [Considerations](#considerations)
+- [Requirements](#requirements-1)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Management commands](#management-commands)
+  - [API](#api)
+    - [GET /:id or GET /urls/:id](#get-id-or-get-urlsid)
+      - [Description](#description-1)
+      - [Parameters](#parameters)
+      - [Body](#body)
+      - [Return](#return)
+    - [GET /urls](#get-urls)
+      - [Description](#description-2)
+      - [Parameters](#parameters-1)
+      - [Body](#body-1)
+      - [Return](#return-1)
+    - [POST /urls](#post-urls)
+      - [Description](#description-3)
+      - [Parameters](#parameters-2)
+      - [Body](#body-2)
+      - [Return](#return-2)
+    - [PATCH /urls/:id](#patch-urlsid)
+      - [Description](#description-4)
+      - [Parameters](#parameters-3)
+      - [Body](#body-3)
+      - [Return](#return-3)
+- [Development](#development)
+  - [Tests](#tests)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Intro
 
@@ -45,9 +83,85 @@ These are some guidelines for scope and technology choice:
 
 7. Deploying this API is not part of the assignment.
 
+# Requirements
+
+This projects requires you to have:
+
+* **git**;
+* **Python>=3.6**;
+* **virtualenv**.
+
 # Installation
 
+Clone the repository:
+
+```
+git clone git@github.com:dizpers/usb.git
+```
+
+Go to the project directory:
+
+```
+cd usb
+```
+
+Create virtual environment. Following command will create it in `.env` directory with `python3` executable:
+
+```
+virtualenv -p python3 .env
+```
+
+Activate that environment. For bash it will be:
+
+```
+source .env/bin/activate
+```
+
+Install both product and development python dependencies:
+
+```
+pip install -U -r requirements.txt
+pip install -U -r requirements-dev.txt
+```
+
+I recommend you to run full test suite to be sure that all is working fine:
+
+```
+nosetests
+```
+
+From this moment you're ready to run the application. You can do it via manage command like this:
+
+```
+./manage.py runserver
+```
+
+Please, feel free to create and use the local settings file by copying the template:
+
+```
+mv usb/config/local.py.example usb/config/local.py
+```
+
 # Usage
+
+## Management commands
+
+This project is equipped with special management command. You can run it with one of the following commands (considering
+that you're in the project root directory right now):
+
+```
+python manage.py
+./manage.py
+```
+
+Execution of that command will print you the list of available arguments and options. You can use following commands
+within management tool:
+
+* **createdb** - creates the database with all necessary structures;
+* **dropdb** - clean the database;
+* **runserver** - run the server;
+* **shell** - (i)python shell with the context of the application;
+* **show-urls** - prints all the urls matching routes in the project.
 
 ## API
 
