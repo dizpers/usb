@@ -1,5 +1,3 @@
-from usb.config.base import *
-
 DEBUG = True
 
 SQLALCHEMY_ECHO = True

@@ -29,3 +29,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Redirect code - 301 or 302
 REDIRECT_CODE = 301
+
+try:
+    from usb.config.local import *
+except ImportError:
+    pass
