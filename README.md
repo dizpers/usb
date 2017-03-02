@@ -120,6 +120,12 @@ I recommend you to run full test suite to be sure that all is working fine:
 nosetests
 ```
 
+Create DB structures:
+
+```
+./manage.py createdb
+```
+
 From this moment you're ready to run the application. You can do it via manage command like this:
 
 ```
