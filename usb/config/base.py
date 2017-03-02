@@ -9,7 +9,7 @@ TESTING = False
 # Set secret key
 SECRET_KEY = 'H*&HD@*H#hhfhefw0083*(@#*(J@*#(JF8378'
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.join(__file__, '../../..'))
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'usb.db')
 

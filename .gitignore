@@ -93,3 +93,6 @@ ENV/
 
 # local settings
 local.py
+
+# DB files
+*.db
