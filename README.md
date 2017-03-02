@@ -287,6 +287,11 @@ In both cases you will get empty JSON object in a body.
 
 # Development
 
+Please, make sure that while developing:
+
+* you're using local settings file (`usb/config/local.py`);
+* you've already installed development requirements (`pip install -U -r requirements-dev.txt`).
+
 ## Tests
 
 You can run full test suite by executing following command:
