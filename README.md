@@ -133,10 +133,9 @@ where:
 
 #### Return
 
-* **200** (OK) - short URL successfully created;
-* **409** (Conflict) - given long URL already shortened.
+* **200** (OK) - short URL successfully created.
 
-For both cases we'll have response body in JSON format. Response body is like this:
+Response body is following JSON format and looks like this:
 
 ```json
 {"url": "..."}
