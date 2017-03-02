@@ -70,6 +70,9 @@ None.
 * **301** (Moved Permanently) - successful redirect;
 * **404** (Not Found) - can't find any match for given id.
 
+Actual redirect code (301 or whatever) can be set in settings. In case when short URL id was successfully found, you'll
+get `Location` header value set to target URL.
+
 ### GET /urls
 
 #### Description
@@ -179,10 +182,10 @@ You must specify at least one of the parameters above (`desktop`, `tablet` or `m
 
 #### Return
 
-* **204** (No Content) - update was successful;
+* **200** (OK) - update was successful;
 * **404** (Not Found) - the short URL isn't found.
 
-In both cases you will not get any response body.
+In both cases you will get empty JSON object in a body.
 
 # Development
 
