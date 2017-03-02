@@ -108,6 +108,12 @@ pip install -U -r requirements.txt
 pip install -U -r requirements-dev.txt
 ```
 
+Create and the local settings file by copying the template:
+
+```
+mv usb/config/local.py.example usb/config/local.py
+```
+
 I recommend you to run full test suite to be sure that all is working fine:
 
 ```
@@ -118,12 +124,6 @@ From this moment you're ready to run the application. You can do it via manage c
 
 ```
 ./manage.py runserver
-```
-
-Please, feel free to create and use the local settings file by copying the template:
-
-```
-mv usb/config/local.py.example usb/config/local.py
 ```
 
 # Usage
