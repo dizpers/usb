@@ -20,8 +20,6 @@ class CreateShortURLTestCase(APITestCase):
         self.assertShortURL(short_url)
         short_id = short_url.split('/')[-1]
         self.assertShortIdFormat(short_id)
-        # TODO: maybe not to return it here?
-        return short_id
 
     def test_create_short_url(self):
         response = self._post_json('/urls', {'url': self.long_url})
@@ -35,13 +33,13 @@ class CreateShortURLTestCase(APITestCase):
         response = self._post_json('/urls', {'url': self.long_url})
         self._validate_response(response)
 
-        data = json.loads(response.data)
-        short_id_first = self._validate_data(data)
+        data_first = json.loads(response.data)
+        self._validate_data(data_first)
 
         response = self._post_json('/urls', {'url': self.long_url})
         self._validate_response(response)
 
-        data = json.loads(response.data)
-        short_id_second = self._validate_data(data)
+        data_second = json.loads(response.data)
+        self._validate_data(data_second)
 
-        self.assertNotEqual(short_id_first, short_id_second)
+        self.assertNotEqual(data_first, data_second)
