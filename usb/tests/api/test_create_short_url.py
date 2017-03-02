@@ -5,39 +5,43 @@ from usb.tests.base import APITestCase
 
 class CreateShortURLTestCase(APITestCase):
 
-    def test_create_short_url(self):
-        long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
+    def setUp(self):
+        super(CreateShortURLTestCase, self).setUp()
+        self.long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
 
-        response = self._post_json('/urls', {'url': long_url})
-
+    def _validate_response(self, response):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/json')
-        data = json.loads(response.data)
+
+    def _validate_data(self, data):
         self.assertIn('url', data)
         short_url = data['url']
-        self.assertNotEqual(long_url, short_url)
+        self.assertNotEqual(self.long_url, short_url)
         self.assertShortURL(short_url)
         short_id = short_url.split('/')[-1]
         self.assertShortIdFormat(short_id)
+        # TODO: maybe not to return it here?
+        return short_id
+
+    def test_create_short_url(self):
+        response = self._post_json('/urls', {'url': self.long_url})
+        self._validate_response(response)
+
+        data = json.loads(response.data)
+        self._validate_data(data)
 
     def test_create_short_url_for_already_shortened_url(self):
-        long_url = 'https://www.youtube.com/watch?v=Y21VecIIdBI'
 
-        response = self._post_json('/urls', {'url': long_url})
+        response = self._post_json('/urls', {'url': self.long_url})
+        self._validate_response(response)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers['Content-Type'], 'application/json')
-        data_from_first_call = json.loads(response.data)
-        self.assertIn('url', data_from_first_call)
-        short_url = data_from_first_call['url']
-        self.assertNotEqual(long_url, short_url)
-        self.assertShortURL(short_url)
-        short_id = short_url.split('/')[-1]
-        self.assertShortIdFormat(short_id)
+        data = json.loads(response.data)
+        short_id_first = self._validate_data(data)
 
-        response = self._post_json('/urls', {'url': long_url})
+        response = self._post_json('/urls', {'url': self.long_url})
+        self._validate_response(response)
 
-        self.assertEqual(response.status_code, 409)
-        self.assertEqual(response.headers['Content-Type'], 'application/json')
-        data_from_second_call = json.loads(response.data)
-        self.assertEqual(data_from_first_call, data_from_second_call)
+        data = json.loads(response.data)
+        short_id_second = self._validate_data(data)
+
+        self.assertNotEqual(short_id_first, short_id_second)
