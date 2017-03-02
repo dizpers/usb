@@ -36,3 +36,28 @@ class Redirect(db.Model):
             self.datetime = datetime
         if count is not None:
             self.count = count
+
+    __mapper_args__ = {
+        'polymorphic_on': type
+    }
+
+
+class Desktop(Redirect):
+
+    __mapper_args__ = {
+        'polymorphic_identity': DeviceType.DESKTOP
+    }
+
+
+class Tablet(Redirect):
+
+    __mapper_args__ = {
+        'polymorphic_identity': DeviceType.TABLET
+    }
+
+
+class Mobile(Redirect):
+
+    __mapper_args__ = {
+        'polymorphic_identity': DeviceType.MOBILE
+    }
