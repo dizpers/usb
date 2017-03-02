@@ -1,6 +1,7 @@
 Flask==0.12
 
 Flask-SQLAlchemy=2.2
+flask-script=2.0.5
 
 SQLAlchemy=1.1.5
 sqlalchemy-utils=0.32.12
