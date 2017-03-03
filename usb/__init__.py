@@ -25,8 +25,7 @@ def create_application(config_filename):
     # Add shortener
     app.shortener = Shortener(
         app.config['HASHIDS_SECRET'],
-        app.config['SHORT_URL_MIN_LENGTH'],
-        app.config['SHORT_URL_DOMAIN']
+        app.config['SHORT_URL_MIN_LENGTH']
     )
 
     return app

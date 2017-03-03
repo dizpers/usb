@@ -5,9 +5,9 @@ class IShortener(object):
 
     __metaclass__ = ABCMeta
 
-    def get_short_id(self, number):
+    def encode(self, number):
         """
-        Get short id by given integer number
+        Get short string id by given integer number
         :param number: Number to be hashed
         :type number: int
         :return: String representation of the calculated hash
@@ -15,12 +15,12 @@ class IShortener(object):
         """
         raise NotImplementedError
 
-    def get_short_url(self, short_id):
+    def decode(self, hashed_value):
         """
-        Get short URL by given short id
-        :param short_id: String, representing the short id
-        :type short_id: str
-        :return: Absolute URL calculated with given short id
-        :rtype: str
+        Get original value by decoding hashed one
+        :param hashed_value: Encoded value
+        :type hashed_value: str
+        :return: Decoded value
+        :rtype: int
         """
         raise NotImplementedError

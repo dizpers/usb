@@ -29,12 +29,12 @@ def create_short_url():
     desktop_redirect = DesktopRedirect('', long_url)
     db.session.add(desktop_redirect)
     db.session.commit()
-    short_id = current_app.shortener.get_short_id(desktop_redirect.id)
+    short_id = current_app.shortener.encode(desktop_redirect.id)
     desktop_redirect.short = short_id
     db.session.add(TabletRedirect(short_id, long_url))
     db.session.add(MobileRedirect(short_id, long_url))
     db.session.commit()
-    short_url = current_app.shortener.get_short_url(short_id)
+    short_url = f'http://{current_app.config["SHORT_URL_DOMAIN"]}/{short_id}'
     return jsonify(url=short_url), 200
 
 
