@@ -28,6 +28,9 @@ class Redirect(db.Model):
         if count is not None:
             self.count = count
 
+    def increase_count(self, number=1):
+        self.count += number
+
     @property
     def type(self):
         # TODO: getattr?

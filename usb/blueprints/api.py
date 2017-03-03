@@ -56,6 +56,6 @@ def redirect_from_short_url(short_id):
     redirect_instance = device_model.query.filter_by(short=short_id).first()
     if redirect_instance is None:
         return jsonify({}), 404
-    redirect_instance.count += 1
+    redirect_instance.increase_count()
     db.session.commit()
     return redirect(redirect_instance.url, current_app.config['REDIRECT_CODE'])
