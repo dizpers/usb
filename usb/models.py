@@ -108,5 +108,3 @@ class MobileRedirect(Redirect):
 
     def __init__(self, short_id, url, datetime=None, count=None):
         super(MobileRedirect, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
-
-
