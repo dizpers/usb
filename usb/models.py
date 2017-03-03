@@ -67,6 +67,7 @@ class DesktopRedirect(Redirect):
     TYPE_CODE = 0
     TYPE_STRING = 'desktop'
 
+    # TODO: temporary fix for https://github.com/mitsuhiko/flask-sqlalchemy/issues/481
     __tablename__ = None
 
     __mapper_args__ = {
@@ -82,6 +83,7 @@ class TabletRedirect(Redirect):
     TYPE_CODE = 1
     TYPE_STRING = 'tablet'
 
+    # TODO: temporary fix for https://github.com/mitsuhiko/flask-sqlalchemy/issues/481
     __tablename__ = None
 
     __mapper_args__ = {
@@ -97,6 +99,7 @@ class MobileRedirect(Redirect):
     TYPE_CODE = 2
     TYPE_STRING = 'mobile'
 
+    # TODO: temporary fix for https://github.com/mitsuhiko/flask-sqlalchemy/issues/481
     __tablename__ = None
 
     __mapper_args__ = {
