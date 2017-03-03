@@ -28,6 +28,10 @@ def create_short_url():
     desktop_redirect = DesktopRedirect('', long_url)
     db.session.add(desktop_redirect)
     db.session.commit()
+    # Actually, we have two ways here:
+    # 1) store a hash (`short_id`) in a DB and just filter records by its value
+    # 2) don't store hash and decode it each time to access the right record
+    # (2) requires sequence generator (like one in PosgreSQL or INCR in Redis)
     short_id = current_app.shortener.encode(desktop_redirect.id)
     desktop_redirect.short = short_id
     db.session.add(TabletRedirect(short_id, long_url))
