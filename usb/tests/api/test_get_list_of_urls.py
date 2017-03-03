@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, DeviceType, Redirect
+from usb.models import db, Desktop, Tablet, Mobile
 from usb.tests.base import APITestCase
 
 
@@ -11,15 +11,15 @@ class GetListOfUrls(APITestCase):
         dt = datetime.now()
         dt_str = dt.isoformat()
         redirects = (
-            Redirect('aaaaaaaa', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=10, datetime=dt),
-            Redirect('aaaaaaaa', DeviceType.TABLET, 'http://tablet.domain1.com/path?q=a', count=20, datetime=dt),
-            Redirect('aaaaaaaa', DeviceType.MOBILE, 'http://mobile.domain1.com/path?q=a', count=30, datetime=dt),
-            Redirect('bbbbbbbb', DeviceType.DESKTOP, 'http://domain2.com/path/b', count=40, datetime=dt),
-            Redirect('bbbbbbbb', DeviceType.TABLET, 'http://tablet.domain2.com/path/b', count=5, datetime=dt),
-            Redirect('bbbbbbbb', DeviceType.MOBILE, 'http://mobile.domain2.com/path/b', count=15, datetime=dt),
-            Redirect('cccccccc', DeviceType.DESKTOP, 'http://domain1.com/path?q=a', count=1, datetime=dt),
-            Redirect('cccccccc', DeviceType.TABLET, 'http://domain1.com/path?q=a', count=2, datetime=dt),
-            Redirect('cccccccc', DeviceType.MOBILE, 'http://domain1.com/path?q=a', count=3, datetime=dt)
+            Desktop('aaaaaaaa', 'http://domain1.com/path?q=a', dt, 10),
+            Tablet('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', dt, 20),
+            Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', dt, 30),
+            Desktop('bbbbbbbb', 'http://domain2.com/path/b', dt, 40),
+            Tablet('bbbbbbbb', 'http://tablet.domain2.com/path/b', dt, 5),
+            Mobile('bbbbbbbb', 'http://mobile.domain2.com/path/b', dt, 15),
+            Desktop('cccccccc', 'http://domain1.com/path?q=a', dt, 1),
+            Tablet('cccccccc', 'http://domain1.com/path?q=a', dt, 2),
+            Mobile('cccccccc', 'http://domain1.com/path?q=a', dt, 3)
         )
         for redirect in redirects:
             db.session.add(redirect)
