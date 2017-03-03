@@ -54,7 +54,7 @@ class Redirect(db.Model):
     }
 
 
-class Desktop(Redirect):
+class DesktopRedirect(Redirect):
 
     TYPE_CODE = 0
     TYPE_STRING = 'desktop'
@@ -66,7 +66,7 @@ class Desktop(Redirect):
     }
 
     def __init__(self, short_id, url, datetime=None, count=None):
-        super(Desktop, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
+        super(DesktopRedirect, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 
 class Tablet(Redirect):

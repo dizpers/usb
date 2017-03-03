@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, Desktop, Tablet, Mobile
+from usb.models import db, DesktopRedirect, Tablet, Mobile
 from usb.tests.base import APITestCase
 
 
@@ -12,7 +12,7 @@ class UpdateShortUrlTestCase(APITestCase):
 
         self.dt = datetime.now()
         redirects = (
-            Desktop('aaaaaaaa', 'http://domain1.com/path?q=a', self.dt, 10),
+            DesktopRedirect('aaaaaaaa', 'http://domain1.com/path?q=a', self.dt, 10),
             Tablet('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', self.dt, 20),
             Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', self.dt, 30)
         )

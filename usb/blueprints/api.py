@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from flask import Blueprint, jsonify, request, redirect, current_app
 
-from usb.models import db, Redirect, Desktop, Tablet, Mobile
+from usb.models import db, Redirect, DesktopRedirect, Tablet, Mobile
 from usb.shortener import get_short_id, get_short_url
 from usb.utils import get_device_model_from_string, get_device_model_from_request
 
@@ -27,7 +27,7 @@ def get_list_of_urls():
 def create_short_url():
     short_id = get_short_id()
     long_url = request.json['url']
-    db.session.add(Desktop(short_id, long_url))
+    db.session.add(DesktopRedirect(short_id, long_url))
     db.session.add(Tablet(short_id, long_url))
     db.session.add(Mobile(short_id, long_url))
     db.session.commit()
