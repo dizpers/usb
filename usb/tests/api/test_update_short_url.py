@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, DeviceType, Desktop, Tablet, Mobile
+from usb.models import db, Desktop, Tablet, Mobile
 from usb.tests.base import APITestCase
 
 

@@ -1,29 +1,25 @@
-import enum
-
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.sql import func
 from sqlalchemy.orm import synonym
 
-from sqlalchemy_utils.types import ChoiceType
 
 db = SQLAlchemy()
 
 
-class DeviceType(enum.Enum):
-
-    DESKTOP = 0
-    TABLET = 1
-    MOBILE = 2
-
-
 class Redirect(db.Model):
+
+    TYPE_CODE_MAPPING = {
+        0: 'desktop',
+        1: 'tablet',
+        2: 'mobile'
+    }
 
     __tablename__ = 'redirect'
 
     id = db.Column(db.Integer(), primary_key=True)
     short = db.Column(db.String(255))
-    _type = db.Column('type', ChoiceType(DeviceType, impl=db.SmallInteger()))
+    _type = db.Column('type', db.SmallInteger())
     url = db.Column(db.String(1024))
     _datetime = db.Column('datetime', db.DateTime(timezone=True), default=func.now())
     count = db.Column(db.Integer(), default=0)
@@ -40,7 +36,7 @@ class Redirect(db.Model):
 
     @property
     def type(self):
-        return self._type.name.lower()
+        return self.TYPE_CODE_MAPPING[self._type]
 
     @type.setter
     def type(self, type):
@@ -65,37 +61,43 @@ class Redirect(db.Model):
 
 class Desktop(Redirect):
 
+    TYPE_CODE = 0
+
     __tablename__ = None
 
     __mapper_args__ = {
-        'polymorphic_identity': DeviceType.DESKTOP
+        'polymorphic_identity': TYPE_CODE
     }
 
     def __init__(self, short_id, url, datetime=None, count=None):
-        super(Desktop, self).__init__(short_id, DeviceType.DESKTOP, url, datetime, count)
+        super(Desktop, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 
 class Tablet(Redirect):
 
+    TYPE_CODE = 1
+
     __tablename__ = None
 
     __mapper_args__ = {
-        'polymorphic_identity': DeviceType.TABLET
+        'polymorphic_identity': TYPE_CODE
     }
 
     def __init__(self, short_id, url, datetime=None, count=None):
-        super(Tablet, self).__init__(short_id, DeviceType.TABLET, url, datetime, count)
+        super(Tablet, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 
 class Mobile(Redirect):
 
+    TYPE_CODE = 2
+
     __tablename__ = None
 
     __mapper_args__ = {
-        'polymorphic_identity': DeviceType.MOBILE
+        'polymorphic_identity': TYPE_CODE
     }
 
     def __init__(self, short_id, url, datetime=None, count=None):
-        super(Mobile, self).__init__(short_id, DeviceType.MOBILE, url, datetime, count)
+        super(Mobile, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 

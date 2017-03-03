@@ -2,9 +2,9 @@ from collections import defaultdict
 
 from flask import Blueprint, jsonify, request, redirect, current_app
 
-from usb.models import db, Redirect, DeviceType, Desktop, Tablet, Mobile
+from usb.models import db, Redirect, Desktop, Tablet, Mobile
 from usb.shortener import get_short_id, get_short_url
-from usb.utils import get_device_type
+from usb.utils import get_device_model_from_code, get_device_model_from_request
 
 api = Blueprint('api', __name__)
 
@@ -41,9 +41,9 @@ def update_short_url(short_id):
     if Redirect.query.filter_by(short=short_id).first() is None:
         return jsonify({}), 404
     for key in data:
-        device_type = DeviceType[key.upper()]
-        db.session.delete(Redirect.query.filter_by(short=short_id, type=device_type).first())
-        db.session.add(Redirect(short_id, device_type, data[key]))
+        device_model = get_device_model_from_code(key)
+        db.session.delete(device_model.query.filter_by(short=short_id).first())
+        db.session.add(device_model(short_id, data[key]))
     if data:
         db.session.commit()
     return jsonify({}), 200
@@ -52,8 +52,8 @@ def update_short_url(short_id):
 @api.route('/<string:short_id>')
 @api.route('/urls/<string:short_id>')
 def redirect_from_short_url(short_id):
-    device_type_model = get_device_type(request)
-    redirect_instance = device_type_model.query.filter_by(short=short_id).first()
+    device_model = get_device_model_from_request(request)
+    redirect_instance = device_model.query.filter_by(short=short_id).first()
     if redirect_instance is None:
         return jsonify({}), 404
     redirect_instance.count += 1

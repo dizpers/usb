@@ -23,7 +23,7 @@ class RedirectFromShortURLTestCase(APITestCase):
 
         db.session.commit()
 
-        self.PATCH_TARGET = 'usb.blueprints.api.get_device_type'
+        self.PATCH_TARGET = 'usb.blueprints.api.get_device_model_from_request'
 
     def _test_redirect_desktop(self, url):
         with patch(self.PATCH_TARGET, return_value=Desktop):
