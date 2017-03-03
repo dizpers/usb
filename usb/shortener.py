@@ -7,11 +7,9 @@ class Shortener(object):
         self.secret = secret
         self.min_length = min_length
         self.short_url_domain = short_url_domain
-        self._hasher = None
+        self._hasher = Hashids(self.secret, self.min_length)
 
     def get_short_id(self, number):
-        if self._hasher is None:
-            self._hasher = Hashids(self.secret, self.min_length)
         return self._hasher.encode(number)
 
     def get_short_url(self, short_id):
