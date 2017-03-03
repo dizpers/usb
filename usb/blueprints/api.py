@@ -38,13 +38,11 @@ def create_short_url():
 @api.route('/urls/<string:short_id>', methods=['PATCH'])
 def update_short_url(short_id):
     data = request.json
-    redirect = Redirect.query.filter_by(short=short_id).first()
-    if redirect is None:
+    if Redirect.query.filter_by(short=short_id).first() is None:
         return jsonify({}), 404
     for key in data:
         device_type = DeviceType[key.upper()]
-        redirect = Redirect.query.filter_by(short=short_id, type=device_type).first()
-        db.session.delete(redirect)
+        db.session.delete(Redirect.query.filter_by(short=short_id, type=device_type).first())
         db.session.add(Redirect(short_id, device_type, data[key]))
     if data:
         db.session.commit()
