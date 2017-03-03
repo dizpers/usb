@@ -9,12 +9,6 @@ db = SQLAlchemy()
 
 class Redirect(db.Model):
 
-    TYPE_CODE_MAPPING = {
-        0: 'desktop',
-        1: 'tablet',
-        2: 'mobile'
-    }
-
     __tablename__ = 'redirect'
 
     id = db.Column(db.Integer(), primary_key=True)
@@ -36,7 +30,8 @@ class Redirect(db.Model):
 
     @property
     def type(self):
-        return self.TYPE_CODE_MAPPING[self._type]
+        # TODO: getattr?
+        return self.TYPE_STRING
 
     @type.setter
     def type(self, type):
@@ -62,6 +57,7 @@ class Redirect(db.Model):
 class Desktop(Redirect):
 
     TYPE_CODE = 0
+    TYPE_STRING = 'desktop'
 
     __tablename__ = None
 
@@ -76,6 +72,7 @@ class Desktop(Redirect):
 class Tablet(Redirect):
 
     TYPE_CODE = 1
+    TYPE_STRING = 'tablet'
 
     __tablename__ = None
 
@@ -90,6 +87,7 @@ class Tablet(Redirect):
 class Mobile(Redirect):
 
     TYPE_CODE = 2
+    TYPE_STRING = 'mobile'
 
     __tablename__ = None
 

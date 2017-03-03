@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request, redirect, current_app
 
 from usb.models import db, Redirect, Desktop, Tablet, Mobile
 from usb.shortener import get_short_id, get_short_url
-from usb.utils import get_device_model_from_code, get_device_model_from_request
+from usb.utils import get_device_model_from_string, get_device_model_from_request
 
 api = Blueprint('api', __name__)
 
@@ -41,7 +41,7 @@ def update_short_url(short_id):
     if Redirect.query.filter_by(short=short_id).first() is None:
         return jsonify({}), 404
     for key in data:
-        device_model = get_device_model_from_code(key)
+        device_model = get_device_model_from_string(key)
         device_model.query.filter_by(short=short_id).delete()
         db.session.add(device_model(short_id, data[key]))
     if data:

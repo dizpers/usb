@@ -34,8 +34,7 @@ class UpdateShortUrlTestCase(APITestCase):
         self.assertEqual(len(tablet_redirects), 1)
         tablet_redirect = tablet_redirects[0]
         self.assertEqual(tablet_redirect.short, 'aaaaaaaa')
-        # TODO: get device code from actual class?
-        self.assertEqual(tablet_redirect.type, 'tablet')
+        self.assertIsInstance(tablet_redirect, Tablet)
         self.assertEqual(tablet_redirect.url, 'http://gov.us/elect/president?name=')
         self.assertEqual(tablet_redirect.count, 0)
         self.assertNotEqual(tablet_redirect.datetime, self.dt)

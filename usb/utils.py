@@ -10,7 +10,7 @@ def get_device_model_from_request(request):
            user_agent.is_mobile and Mobile
 
 
-def get_device_model_from_code(code):
-    return code == 'desktop' and Desktop or \
-           code == 'tablet' and Tablet or \
-           code == 'mobile' and Mobile
+def get_device_model_from_string(code):
+    return code == Desktop.TYPE_STRING and Desktop or \
+           code == Tablet.TYPE_STRING and Tablet or \
+           code == Mobile.TYPE_STRING and Mobile
