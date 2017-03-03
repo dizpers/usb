@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, DesktopRedirect, TabletRedirect, Mobile
+from usb.models import db, DesktopRedirect, TabletRedirect, MobileRedirect
 from usb.tests.base import APITestCase
 
 
@@ -14,7 +14,7 @@ class UpdateShortUrlTestCase(APITestCase):
         redirects = (
             DesktopRedirect('aaaaaaaa', 'http://domain1.com/path?q=a', self.dt, 10),
             TabletRedirect('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', self.dt, 20),
-            Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', self.dt, 30)
+            MobileRedirect('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', self.dt, 30)
         )
 
         for redirect in redirects:
