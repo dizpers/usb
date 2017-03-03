@@ -25,9 +25,12 @@ def get_list_of_urls():
 
 @api.route('/urls', methods=['POST'])
 def create_short_url():
-    short_id = current_app.shortener.get_short_id(int(time.time() * 10 ** 7))
     long_url = request.json['url']
-    db.session.add(DesktopRedirect(short_id, long_url))
+    desktop_redirect = DesktopRedirect('', long_url)
+    db.session.add(desktop_redirect)
+    db.session.commit()
+    short_id = current_app.shortener.get_short_id(desktop_redirect.id)
+    desktop_redirect.short = short_id
     db.session.add(TabletRedirect(short_id, long_url))
     db.session.add(MobileRedirect(short_id, long_url))
     db.session.commit()
