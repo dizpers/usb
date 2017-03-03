@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, DesktopRedirect, Tablet, Mobile
+from usb.models import db, DesktopRedirect, TabletRedirect, Mobile
 from usb.tests.base import APITestCase
 
 
@@ -12,13 +12,13 @@ class GetListOfUrls(APITestCase):
         dt_str = dt.isoformat()
         redirects = (
             DesktopRedirect('aaaaaaaa', 'http://domain1.com/path?q=a', dt, 10),
-            Tablet('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', dt, 20),
+            TabletRedirect('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', dt, 20),
             Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', dt, 30),
             DesktopRedirect('bbbbbbbb', 'http://domain2.com/path/b', dt, 40),
-            Tablet('bbbbbbbb', 'http://tablet.domain2.com/path/b', dt, 5),
+            TabletRedirect('bbbbbbbb', 'http://tablet.domain2.com/path/b', dt, 5),
             Mobile('bbbbbbbb', 'http://mobile.domain2.com/path/b', dt, 15),
             DesktopRedirect('cccccccc', 'http://domain1.com/path?q=a', dt, 1),
-            Tablet('cccccccc', 'http://domain1.com/path?q=a', dt, 2),
+            TabletRedirect('cccccccc', 'http://domain1.com/path?q=a', dt, 2),
             Mobile('cccccccc', 'http://domain1.com/path?q=a', dt, 3)
         )
         for redirect in redirects:

@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 
-from usb.models import db, DesktopRedirect, Tablet, Mobile
+from usb.models import db, DesktopRedirect, TabletRedirect, Mobile
 from usb.tests.base import APITestCase
 
 
@@ -13,7 +13,7 @@ class UpdateShortUrlTestCase(APITestCase):
         self.dt = datetime.now()
         redirects = (
             DesktopRedirect('aaaaaaaa', 'http://domain1.com/path?q=a', self.dt, 10),
-            Tablet('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', self.dt, 20),
+            TabletRedirect('aaaaaaaa', 'http://tablet.domain1.com/path?q=a', self.dt, 20),
             Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a', self.dt, 30)
         )
 
@@ -30,11 +30,11 @@ class UpdateShortUrlTestCase(APITestCase):
         data = json.loads(response.data)
         self.assertEqual(data, {})
 
-        tablet_redirects = Tablet.query.filter_by(short='aaaaaaaa').all()
+        tablet_redirects = TabletRedirect.query.filter_by(short='aaaaaaaa').all()
         self.assertEqual(len(tablet_redirects), 1)
         tablet_redirect = tablet_redirects[0]
         self.assertEqual(tablet_redirect.short, 'aaaaaaaa')
-        self.assertIsInstance(tablet_redirect, Tablet)
+        self.assertIsInstance(tablet_redirect, TabletRedirect)
         self.assertEqual(tablet_redirect.url, 'http://gov.us/elect/president?name=')
         self.assertEqual(tablet_redirect.count, 0)
         self.assertNotEqual(tablet_redirect.datetime, self.dt)

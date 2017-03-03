@@ -69,7 +69,7 @@ class DesktopRedirect(Redirect):
         super(DesktopRedirect, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 
-class Tablet(Redirect):
+class TabletRedirect(Redirect):
 
     TYPE_CODE = 1
     TYPE_STRING = 'tablet'
@@ -81,7 +81,7 @@ class Tablet(Redirect):
     }
 
     def __init__(self, short_id, url, datetime=None, count=None):
-        super(Tablet, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
+        super(TabletRedirect, self).__init__(short_id, self.TYPE_CODE, url, datetime, count)
 
 
 class Mobile(Redirect):
