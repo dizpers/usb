@@ -11,16 +11,14 @@ api = Blueprint('api', __name__)
 
 @api.route('/urls')
 def get_list_of_urls():
-    # TODO: paginate?
     redirects = Redirect.query.all()
     result = defaultdict(list)
     for redirect in redirects:
         result[redirect.short].append({
-            'type': redirect.type.name.lower(),
+            'type': redirect.type,
             'url': redirect.url,
             'redirects': redirect.count,
-            # TODO: move to JSON serializer?
-            'datetime': redirect.datetime.isoformat()
+            'datetime': redirect.datetime
         })
     return jsonify(result), 200
 

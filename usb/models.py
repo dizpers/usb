@@ -3,6 +3,7 @@ import enum
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy.sql import func
+from sqlalchemy.orm import synonym
 
 from sqlalchemy_utils.types import ChoiceType
 
@@ -22,9 +23,9 @@ class Redirect(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     short = db.Column(db.String(255))
-    type = db.Column(ChoiceType(DeviceType, impl=db.SmallInteger()))
+    _type = db.Column('type', ChoiceType(DeviceType, impl=db.SmallInteger()))
     url = db.Column(db.String(1024))
-    datetime = db.Column(db.DateTime(timezone=True), default=func.now())
+    _datetime = db.Column('datetime', db.DateTime(timezone=True), default=func.now())
     count = db.Column(db.Integer(), default=0)
 
     def __init__(self, short_id, type, url, datetime=None, count=None):
@@ -37,8 +38,28 @@ class Redirect(db.Model):
         if count is not None:
             self.count = count
 
+    @property
+    def type(self):
+        return self._type.name.lower()
+
+    @type.setter
+    def type(self, type):
+        self._type = type
+
+    type = synonym('_type', descriptor=type)
+
+    @property
+    def datetime(self):
+        return self._datetime.isoformat()
+
+    @datetime.setter
+    def datetime(self, datetime):
+        self._datetime = datetime
+
+    datetime = synonym('_datetime', descriptor=datetime)
+
     __mapper_args__ = {
-        'polymorphic_on': type
+        'polymorphic_on': _type
     }
 
 
