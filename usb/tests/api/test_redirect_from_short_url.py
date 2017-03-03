@@ -1,7 +1,7 @@
 from unittest.mock import patch, Mock
 
 from usb.tests.base import APITestCase
-from usb.models import db, Redirect, DeviceType
+from usb.models import db, Desktop, Tablet, Mobile
 
 
 class RedirectFromShortURLTestCase(APITestCase):
@@ -9,14 +9,14 @@ class RedirectFromShortURLTestCase(APITestCase):
     def setUp(self):
         super(RedirectFromShortURLTestCase, self).setUp()
 
-        redirects = [
-            Redirect('aaaaaaaa', DeviceType.DESKTOP, 'http://domain1.com/path?q=a'),
-            Redirect('aaaaaaaa', DeviceType.TABLET, 'http://tablet.domain1.com/path?q=a'),
-            Redirect('aaaaaaaa', DeviceType.MOBILE, 'http://mobile.domain1.com/path?q=a'),
-            Redirect('bbbbbbbb', DeviceType.DESKTOP, 'http://domain2.com/path?q=b'),
-            Redirect('bbbbbbbb', DeviceType.TABLET, 'http://tablet.domain2.com/path?q=b'),
-            Redirect('bbbbbbbb', DeviceType.MOBILE, 'http://mobile.domain2.com/path?q=b')
-        ]
+        redirects = (
+            Desktop('aaaaaaaa', 'http://domain1.com/path?q=a'),
+            Tablet('aaaaaaaa', 'http://tablet.domain1.com/path?q=a'),
+            Mobile('aaaaaaaa', 'http://mobile.domain1.com/path?q=a'),
+            Desktop('bbbbbbbb', 'http://domain2.com/path?q=b'),
+            Tablet('bbbbbbbb', 'http://tablet.domain2.com/path?q=b'),
+            Mobile('bbbbbbbb', 'http://mobile.domain2.com/path?q=b')
+        )
 
         for redirect in redirects:
             db.session.add(redirect)
@@ -26,19 +26,19 @@ class RedirectFromShortURLTestCase(APITestCase):
         self.PATCH_TARGET = 'usb.blueprints.api.get_device_type'
 
     def _test_redirect_desktop(self, url):
-        with patch(self.PATCH_TARGET, return_value=DeviceType.DESKTOP):
+        with patch(self.PATCH_TARGET, return_value=Desktop):
             response = self.client.get(url + 'aaaaaaaa')
         self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://domain1.com/path?q=a')
 
     def _test_redirect_tablet(self, url):
-        with patch(self.PATCH_TARGET, return_value=DeviceType.TABLET):
+        with patch(self.PATCH_TARGET, return_value=Tablet):
             response = self.client.get(url + 'aaaaaaaa')
         self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://tablet.domain1.com/path?q=a')
 
     def _test_redirect_mobile(self, url):
-        with patch(self.PATCH_TARGET, return_value=DeviceType.MOBILE):
+        with patch(self.PATCH_TARGET, return_value=Mobile):
             response = self.client.get(url + 'aaaaaaaa')
         self.assertEqual(response.status_code, self.app.config['REDIRECT_CODE'])
         self.assertEqual(response.headers['Location'], 'http://mobile.domain1.com/path?q=a')
@@ -65,11 +65,9 @@ class RedirectFromShortURLTestCase(APITestCase):
         # 1 mobile
         self._test_redirect_mobile('/')
 
-        redirects = Redirect.query.filter_by(short='aaaaaaaa').all()
-        for redirect in redirects:
-            if redirect.type == DeviceType.DESKTOP:
-                self.assertEqual(redirect.count, 3)
-            if redirect.type == DeviceType.TABLET:
-                self.assertEqual(redirect.count, 0)
-            if redirect.type == DeviceType.MOBILE:
-                self.assertEqual(redirect.count, 1)
+        desktop = Desktop.query.filter_by(short='aaaaaaaa').first()
+        self.assertEqual(desktop.count, 3)
+        tablet = Tablet.query.filter_by(short='aaaaaaaa').first()
+        self.assertEqual(tablet.count, 0)
+        mobile = Mobile.query.filter_by(short='aaaaaaaa').first()
+        self.assertEqual(mobile.count, 1)

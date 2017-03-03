@@ -55,8 +55,8 @@ def update_short_url(short_id):
 @api.route('/<string:short_id>')
 @api.route('/urls/<string:short_id>')
 def redirect_from_short_url(short_id):
-    device_type = get_device_type(request)
-    redirect_instance = Redirect.query.filter_by(short=short_id, type=device_type).first()
+    device_type_model = get_device_type(request)
+    redirect_instance = device_type_model.query.filter_by(short=short_id).first()
     if redirect_instance is None:
         return jsonify({}), 404
     redirect_instance.count += 1

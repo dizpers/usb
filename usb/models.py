@@ -44,20 +44,37 @@ class Redirect(db.Model):
 
 class Desktop(Redirect):
 
+    __tablename__ = None
+
     __mapper_args__ = {
         'polymorphic_identity': DeviceType.DESKTOP
     }
 
+    def __init__(self, short_id, url, datetime=None, count=None):
+        super(Desktop, self).__init__(short_id, DeviceType.DESKTOP, url, datetime, count)
+
 
 class Tablet(Redirect):
+
+    __tablename__ = None
 
     __mapper_args__ = {
         'polymorphic_identity': DeviceType.TABLET
     }
 
+    def __init__(self, short_id, url, datetime=None, count=None):
+        super(Tablet, self).__init__(short_id, DeviceType.TABLET, url, datetime, count)
+
 
 class Mobile(Redirect):
+
+    __tablename__ = None
 
     __mapper_args__ = {
         'polymorphic_identity': DeviceType.MOBILE
     }
+
+    def __init__(self, short_id, url, datetime=None, count=None):
+        super(Mobile, self).__init__(short_id, DeviceType.MOBILE, url, datetime, count)
+
+
