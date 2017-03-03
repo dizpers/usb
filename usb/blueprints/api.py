@@ -24,14 +24,30 @@ def get_list_of_urls():
 
 @api.route('/urls', methods=['POST'])
 def create_short_url():
+    """
+    Besides the approach used here, other options were also considered. Among them are
+    the following ones:
+
+    1) use external sequence generator instead of auto-incremented PK (Primary Key)
+    (like sequence generator in PosgreSQL, auto-incremented value in Redis and so on);
+
+    2) usage of `parent_id` as a FK (Foreign Key) instead of `short` attribute;
+
+    3) replace Single Table Inheritance approach with Class Table Inheritance;
+
+    4) use base model as the source of PK, create FK to that model.
+
+    The main reason of choice made in favor of implementation presented here is performance.
+    Selected solution allows to avoid decoding on each API request. And, comparing to Class
+    Table Inheritance, it avoids JOINs usage while getting data. The drawback of chosen method
+    is the lack of integrity control. At the same time, it doesn't supported by SQLite and not
+    required by business side - all connected values removed by value of `short` attribute, which
+    makes integrity control not demanded.
+    """
     long_url = request.json['url']
     desktop_redirect = DesktopRedirect('', long_url)
     db.session.add(desktop_redirect)
     db.session.commit()
-    # Actually, we have two ways here:
-    # 1) store a hash (`short_id`) in a DB and just filter records by its value
-    # 2) don't store hash and decode it each time to access the right record
-    # (2) requires sequence generator (like one in PosgreSQL or INCR in Redis)
     short_id = current_app.shortener.encode(desktop_redirect.id)
     desktop_redirect.short = short_id
     db.session.add(TabletRedirect(short_id, long_url))
