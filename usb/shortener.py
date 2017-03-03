@@ -1,23 +1,18 @@
-import time
-
-from flask import current_app
-
 from hashids import Hashids
 
 
-def get_hasher(secret, min_length):
-    if not hasattr(get_hasher, 'hasher'):
-        get_hasher.hasher = Hashids(secret, min_length)
-    return get_hasher.hasher
+class Shortener(object):
 
+    def __init__(self, secret, min_length, short_url_domain):
+        self.secret = secret
+        self.min_length = min_length
+        self.short_url_domain = short_url_domain
+        self._hasher = None
 
-def get_short_id():
-    hasher = get_hasher(
-        current_app.config['HASHIDS_SECRET'],
-        current_app.config['SHORT_URL_MIN_LENGTH']
-    )
-    return hasher.encode(int(time.time() * 10**7))
+    def get_short_id(self, number):
+        if self._hasher is None:
+            self._hasher = Hashids(self.secret, self.min_length)
+        return self._hasher.encode(number)
 
-
-def get_short_url(short_id):
-    return f'http://{current_app.config["SHORT_URL_DOMAIN"]}/{short_id}'
+    def get_short_url(self, short_id):
+        return f'http://{self.short_url_domain}/{short_id}'
