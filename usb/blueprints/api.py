@@ -1,5 +1,4 @@
 from collections import defaultdict
-import time
 
 from flask import Blueprint, jsonify, request, redirect, current_app
 
