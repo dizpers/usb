@@ -29,6 +29,11 @@ class Redirect(db.Model):
             self.count = count
 
     def increase_count(self, number=1):
+        """
+        Increase number of done redirects by given number
+        :param number: Number to be added to total number of redirects (default to 1)
+        :type number: int
+        """
         self.count += number
 
     @property

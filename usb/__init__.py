@@ -6,6 +6,12 @@ from usb.shortener import Shortener
 
 
 def create_application(config_filename):
+    """
+    Application factory
+    :param config_filename: Relative file path to pythonic config file
+    :return: Application instance
+    :rtype: flask.Flask
+    """
     # Create and configure an application
     app = Flask(__name__)
     app.config.from_pyfile(config_filename)
