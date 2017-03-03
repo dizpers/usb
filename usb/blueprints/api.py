@@ -42,7 +42,7 @@ def update_short_url(short_id):
         return jsonify({}), 404
     for key in data:
         device_model = get_device_model_from_code(key)
-        db.session.delete(device_model.query.filter_by(short=short_id).first())
+        device_model.query.filter_by(short=short_id).delete()
         db.session.add(device_model(short_id, data[key]))
     if data:
         db.session.commit()
